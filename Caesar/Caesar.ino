@@ -1,19 +1,19 @@
 #include <Arduino.h>
 
-const char* values[]={"A", "B", "C", "D", "E", "F", "G", "H",
+const char* A[]={"A", "B", "C", "D", "E", "F", "G", "H",
 "I", "J","K", "L", "M", "N", "O", "P", "Q", "R", "S", "T","U",
 "V", "W", "X", "Y", "Z", "a", "b", "c", "d","e", "f", "g", "h",
 "i", "j", "k", "l", "m", "n","o", "p", "q", "r", "s", "t", "u",
 "v", "w", "x","y", "z", "0", "1", "2", "3", "4", "5", "6", "7",
 "8", "9", ":", ".", ",", " "};
+const int A_len=sizeof(A)/4;
+const char* B[A_len];
 
 void shift(int key)
 {
   Serial.println("HELLO");
   int k=key;
-  const char* A[]={"a","b","c","e","f"};
-  int A_len=sizeof(A)/4;
-  const char* B[A_len];
+  //const char* A[]={"a","b","c","e","f"};
   const char* temp[A_len];
   int inc=0;
   for(int n=A_len-k-1;n<A_len;n++)
@@ -26,6 +26,11 @@ void shift(int key)
   {
     B[y]=temp[y];
     Serial.println("Debugger for B-first: " + String(B[y]));
+  }
+  for(int i=0;i<A_len-k;i++)
+  {
+    B[i+k]=A[i];
+    Serial.println("Debugger for B-second: " + String(B[i+k]));
   }
 }
 
@@ -42,8 +47,8 @@ void setup()
 
 void loop()
 {
-  //String txt="Hello";
-  int shared_key=2;
+  String txt="Hello";
+  int shared_key=6;
   //Serial.println("Plain Text: "+txt);
   //Serial.println("Cipher Text: "+caesar(txt,shared_key));
   shift(shared_key);
