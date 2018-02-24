@@ -11,7 +11,6 @@ String B[A_len];
 
 void shift(int key)
 {
-  Serial.println("HELLO");
   int k=key;
   //const char* A[]={"a","b","c","e","f"};
   const char* temp[A_len];
@@ -32,19 +31,30 @@ void shift(int key)
     B[i+k]=String(A[i]);
     //Serial.println("Debugger for B-second: " + String(B[i+k]));
   }
-  delay(1000);
-  /*for(int b=0;b<A_len;b++)
+  /*delay(1000);
+  for(int b=0;b<A_len;b++)
   {
     Serial.print(String(B[b])+", ");
   }*/
 }
 
-void caesar(String txt,int shared_key)
+String caesar(String txt,int shared_key)
 {
   int private_key=1;
   int key=shared_key+private_key;
   shift(key); 
-  Serial.print(String(B[1]));
+  String cipher_txt="";
+  for(int n=1;n<txt.length()+1;n++)
+  {
+    for(int i=0;i<A_len;i++)
+    {
+      if(String(txt.substring(n-1,n)) == String(A[i]))
+      {
+        cipher_txt=cipher_txt+String(B[i+1]);
+      }
+    }
+  }
+  return cipher_txt;
 }
 
 void setup()
@@ -54,9 +64,10 @@ void setup()
 
 void loop()
 {
-  String txt="Hello";
+  String txt="HELLO";
+  String cipher;
   int shared_key=6;
-  caesar(txt,shared_key);
-  
+  cipher= caesar(txt,shared_key); 
+  Serial.println("Plain: "+ txt + " cipher: "+ cipher);
   delay(1000);
 }
