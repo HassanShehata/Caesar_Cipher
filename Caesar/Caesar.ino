@@ -1,6 +1,6 @@
 #include <Arduino.h>
 
-String values[]={"A", "B", "C", "D", "E", "F", "G", "H",
+const char* values[]={"A", "B", "C", "D", "E", "F", "G", "H",
 "I", "J","K", "L", "M", "N", "O", "P", "Q", "R", "S", "T","U",
 "V", "W", "X", "Y", "Z", "a", "b", "c", "d","e", "f", "g", "h",
 "i", "j", "k", "l", "m", "n","o", "p", "q", "r", "s", "t", "u",
@@ -9,28 +9,23 @@ String values[]={"A", "B", "C", "D", "E", "F", "G", "H",
 
 void shift(int key)
 {
-  Serial.print("HELLO");
+  Serial.println("HELLO");
   int k=key;
-  String A[]={"a","b","c","e","f"};
+  const char* A[]={"a","b","c","e","f"};
   int A_len=sizeof(A)/4;
-  String B[]={"0","0","0","0","0"};
-  for(int i=0;i<A_len-1-k;i++)
+  const char* B[A_len];
+  const char* temp[A_len];
+  int inc=0;
+  for(int n=A_len-k-1;n<A_len;n++)
   {
-    B[i+k]=A[i];
-    Serial.println("For debugger 1:"+String(A[i]));
+    temp[inc]=A[n];
+    inc++;
+    Serial.println("Debugger for temp: " + String(temp[inc]));
   }
-  delay(1000);
-  int back=0;
-  for(int n=A_len;n>A_len-k;n--)
+  for(int y=1;y<k+1;y++)
   {
-    B[back]=A[n];
-    Serial.println("For debugger 2:"+String(A[n]));
-    back++;
-  }
-  delay(1000);
-  for(int x=0;x<A_len-1;x++)
-  {
-    Serial.println(String(B[x]));
+    B[y]=temp[y];
+    Serial.println("Debugger for B-first: " + String(B[y]));
   }
 }
 
@@ -48,9 +43,9 @@ void setup()
 void loop()
 {
   //String txt="Hello";
-  int shared_key=1;
+  int shared_key=2;
   //Serial.println("Plain Text: "+txt);
   //Serial.println("Cipher Text: "+caesar(txt,shared_key));
   shift(shared_key);
-  delay(60000);
+  delay(1000);
 }
