@@ -38,17 +38,28 @@ void shift(int key)
   }*/
 }
 
+String rand_salt()
+{
+  String salt="";
+  for(int i=0;i<10;i++)
+  {
+    salt=salt+A[random(0,65)];
+  }
+  return salt;
+}
+
 String caesar(String txt,int shared_key)
 {
   int private_key=1;
   int key=shared_key+private_key;
   shift(key); 
   String cipher_txt="";
+  txt=rand_salt()+txt+rand_salt();
   for(int n=1;n<txt.length()+1;n++)
   {
     for(int i=0;i<A_len;i++)
     {
-      if(String(txt.substring(n-1,n)) == String(A[i]))
+      if(txt.substring(n-1,n) == A[i])
       {
         cipher_txt=cipher_txt+String(B[i+1]);
       }
@@ -64,7 +75,7 @@ void setup()
 
 void loop()
 {
-  String txt="HELLO";
+  String txt="F:00,Lat:1,Long:2,S:3,R:4,T:5,L:6,D:7,H:8,V:9,E";
   String cipher;
   int shared_key=6;
   cipher= caesar(txt,shared_key); 
